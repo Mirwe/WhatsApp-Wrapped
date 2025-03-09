@@ -4,13 +4,14 @@ from datetime import datetime, timedelta
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+from dateutil.rrule import weekday
 from wordcloud import WordCloud
 import collections
 import emoji
 import matplotlib.gridspec as gridspec
 
 # File txt estratto da WhatsApp
-filename = "chat2.txt"
+filename = "chat.txt"
 
 # --- Funzioni di supporto ---
 def remove_emoji(text):
@@ -112,6 +113,16 @@ df["conversation_start"] = df["datetime"].diff() > conversation_threshold
 # Il primo messaggio va sempre considerato come inizio di conversazione.
 df.loc[0, "conversation_start"] = True
 conversation_starters = df[df["conversation_start"]]["sender"].value_counts()
+
+
+#4. numero messaggi per giorno
+weekdays = ["Lunedi", "Martedi", "Mercoledi", "Giovedi",    "Venerdi", "Sabato", "Domenica"]
+df["weekday"] = df.apply( lambda r: weekdays[r["datetime"].weekday()], axis=1)
+messages_per_weekday = df.groupby("weekday").size()
+
+messages_per_weekday = messages_per_weekday.reindex(index = weekdays)
+
+messages_per_weekday.plot.bar()
 
 # Output delle statistiche
 print("=== Statistiche Chat ===")
