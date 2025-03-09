@@ -20,6 +20,7 @@ Valido solo per chat da due persone.
    
   - Distribuzione dei messaggi per ora del giorno
   - Andamento dei messaggi per giorno
+  - Numero di messaggi per ogni giorno della settimana
   - Numero messaggi per utente
   - Numero conversazioni avviate per utente
   - Tempo medio di risposta per utente
